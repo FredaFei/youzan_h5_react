@@ -1,0 +1,29 @@
+.page-bd {
+  background: #efefef;
+  .home-container{
+    background: #fff;
+  }
+  .search {
+    position: relative;
+    background: #f1f1f1;
+    i {
+      position: absolute;
+      margin-left: .1rem;
+    }
+    input {
+      width: 100%;
+      padding: .1rem .1rem .1rem .5rem;
+      font-size: .26rem;
+      color: #333;
+      border: 0;
+      border-radius: .08rem;
+      background: #fff;
+    }
+  }
+  .discount-list {
+
+  }
+  .new-goods {
+
+  }
+}

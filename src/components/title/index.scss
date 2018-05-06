@@ -1,0 +1,16 @@
+.title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: .2rem auto;
+    .line{
+        flex: 0 0 .6rem;
+        border-bottom: 1px solid #ddd; 
+    }
+    .text{
+        font-size: .36rem;
+        color: #333;
+        font-weight: 700;
+        padding: 0 .18rem;
+    }
+}

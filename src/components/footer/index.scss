@@ -1,0 +1,26 @@
+.nav-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    .nav-item-link{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: .03rem 0;
+        text-align: center;
+        transition: color .2s ease;
+        &.active{
+            color: red;
+        }
+        i{
+            font-size: .42rem;
+        }
+        span{
+            font-size: .28rem;
+        }
+    }
+}

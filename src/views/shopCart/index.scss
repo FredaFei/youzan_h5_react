@@ -1,0 +1,202 @@
+.shopcart-wrap {
+    background: rgb(239, 239, 239);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 1rem;
+    .shopcart-bd {
+      position: relative;
+        .shop-content {
+            min-height: 7rem;    
+            padding-bottom: 2rem;
+            .shop {
+                background: #ffffff;
+                margin-bottom: 0.2rem;
+                .shop-name {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    flex-direction: row;
+                    padding: .3rem .2rem;
+                    background-color: #ffffff;
+                    .left {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        flex-direction: row;
+                        i {
+                            margin-left: 0.2rem;
+                            margin-right: 0.2rem;
+                        }
+                        .name {
+                            font-size: 0.32rem;
+                            color: #333;
+                        }
+                    }
+                    .oprator {
+                        font-size: 0.3rem;
+                        color: #38f;
+                    }
+                }
+                .shopcart-list {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: row;
+                    background-color: rgb(249, 249, 249);
+                    padding: 0.1rem 0.2rem;
+                    margin-bottom: .2rem;
+                    position: relative;
+                    .check-box {
+                        flex: 0 0 0.6rem;
+                    }
+                    img {
+                        flex: 0 0 1.2rem;
+                        width: 1.8rem;
+                        height: 1.8rem;
+                        margin-left: .2rem;
+                    }
+                    .info {
+                        flex: 1;
+                        padding-left: 0.18rem;
+                        .name {
+                            text-align: justify;
+                            font-size: 0.28rem;
+                            color: #333333;
+                        }
+                        .sku-text {
+                            padding-top: 0.08rem;
+                            color: #666;
+                        }
+                        .sku {
+                            padding-top: 0.16rem;
+                            position: relative;
+                            .price {
+                                color: #f44;
+                                font-size: 0.34rem;
+                            }
+                            .quantity {
+                                position: absolute;
+                                right: 0;
+                                bottom: 0;
+                                text-align: right;
+                                color: #dddddd;
+                                font-size: 0.32rem;
+                            }
+                        }
+                    }
+                    .del-btn {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 1.2rem;
+                        height: 100%;
+                        color: #ffffff;
+                        font-size: 0.28rem;
+                        background: #fe4543;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                }
+            }
+        }
+        .copy{
+            position: absolute;
+            bottom: -.1rem;
+            width: 100%;
+        }
+    }
+    .shopcart-ft {
+        position: absolute;
+        bottom: 0;
+        z-index: 99999;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #ddd;
+        padding-left: .2rem;
+        background: #fff;
+        .left {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            .checkbox {
+                margin-right: .2rem;
+            }
+        }
+        .right {
+            flex: 1;
+            .sum-price {
+                margin-right: 0.2rem;
+                text-align: right;
+                font-size: 0.28rem;
+                color: #f44;
+                p {
+                    color: #999;
+                    font-size: 0.24rem;
+                }
+            }
+        }
+        .pay-btn {
+            flex: 0 0 2rem;
+            width: 2rem;
+            line-height: 1rem;
+            color: #999;
+            font-size: 0.3rem;
+            background: #ddd;
+            border: 0;
+            border-radius: 0;
+            transition: all .2s ease;
+            &.active {
+                color: #ffffff;
+                background: #fe4543;
+            }
+        }
+    }
+}
+
+.checkbox {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    input[type="checkbox"] {
+        visibility: hidden;
+    }
+    label {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid #aaa;
+        box-sizing: border-box;
+        position: absolute;
+        left: 0;
+        top: 0;
+        &:after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 9px;
+            height: 5px;
+            border: 3px solid #ffffff;
+            border-top: none;
+            border-right: none;
+            transform: rotate(-45deg) scale(0);
+            transition: all .1s cubic-bezier(.71, -.46, .88, .6);
+        }
+        &.active {
+            border-color: red;
+            background: red;
+        }
+        &.active:after {
+            transform: rotate(-45deg) scale(1);
+            transition: all .2s cubic-bezier(.12, .4, .29, 1.46) .1s;
+        }
+    }
+}

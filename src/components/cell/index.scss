@@ -1,0 +1,23 @@
+.cell-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 0.2rem;
+  margin-bottom: 0.2rem;
+  background: #fff;
+  i{
+    font-size: .36rem;
+  }
+  .text {
+    margin-left: 0.14rem;
+    font-size: 0.28rem;
+  }
+  .plain-btn {
+    padding: 0.1rem;
+    color: #f44;
+    font-size: 0.24rem;
+    background: #ffffff;
+    border: 1px solid #fe4543;
+  }
+}

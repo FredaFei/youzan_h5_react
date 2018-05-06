@@ -1,0 +1,30 @@
+.loading-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    .msg {
+        line-height: 70px;
+        text-align: center;
+        font-size: 14px;
+    }
+    .data-load-true {
+        animation: rotate-forever 1s infinite linear;
+        height: .3rem;
+        width: .3rem;
+        border: 4px solid #06bf04;
+        border-right-color: transparent;
+        border-radius: 50%;
+    }
+}
+
+@keyframes rotate-forever {
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}

@@ -1,0 +1,29 @@
+.controller {
+    .btn-oprator, .input-num {
+        width: 36px;
+        line-height: 30px;
+        vertical-align: middle;
+        text-align: center;
+        color: #333;
+        font-size: 14px;
+        border: 1px solid #aaa;
+        background: #fff;
+        border-radius: 0;
+        box-sizing: border-box;
+    }
+    .reduce {
+        border-right-color: transparent;
+        &.disabled {
+            background: #dddddd;
+        }
+    }
+    .add {
+        border-left-color: transparent;
+        &.disabled {
+            background: #dddddd;
+        }
+    }
+    .input-num {
+
+    }
+}

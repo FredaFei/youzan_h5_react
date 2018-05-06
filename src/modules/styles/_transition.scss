@@ -1,0 +1,31 @@
+.fade-enter{
+  opacity: .01;
+}
+.fade-enter.fade-enter-active{
+  opacity: 1;
+  transition: all .3s ease;
+}
+.fade-leave{
+  opacity: 1;
+}
+.fade-leave.fade-leave-active{
+  opacity: .01;
+  transition: all .3s ease;
+}
+
+.slideup-enter{
+  transform: translate3D(0,100%,0);
+}
+.slideup-enter.slideup-enter-active{
+  transform: translate3D(0,0,0);
+  transition: .5s ease-in-out;
+}
+.slideup-leave{
+  transform: translate3D(0,0,0);
+}
+.slideup-leave.slideup-leave-active{
+  transform: translate3D(0,100%,0);
+  transition: .4s cubic-bezier(0, 1, 0.5, 1);
+}
+
+

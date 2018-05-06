@@ -1,0 +1,100 @@
+.sku-toast-wrapper {
+  overflow: hidden;
+  .mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .6);
+    z-index: 100;
+  }
+  .sku-content {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 101;
+    background: #ffffff;
+    .sku-head {
+      margin: 0 .12rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .img {
+        flex: 0 0 1.6rem;
+        height: 1.6rem;
+        background: #409eff;
+        border-radius: .12rem;
+        border: 1px solid #ffffff;
+        position: relative;
+        top: -.2rem;
+      }
+      .info {
+        flex: 1;
+        padding-left: .1rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        position: relative;
+        .name {
+          max-width: 4rem;
+          color: #333;
+        }
+        .price {
+          margin-top: .1rem;
+          font-size: .32rem;
+          color: #f1262b;
+        }
+        .icon-close {
+          position: absolute;
+          right: 0;
+          top: 0;
+          font-size: .32rem;
+        }
+      }
+    }
+    .sku-body {
+      margin-left: .28rem;
+      border-top: 1px solid #eee;
+      .cell-form {
+        margin-right: .28rem;
+        .cell-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px 0;
+          .left {
+            span {
+              display: block;
+              font-size: .28rem;
+              & + span {
+                font-size: .24rem;
+                color: #757575;
+              }
+            }
+          }
+        }
+      }
+    }
+    .sku-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      button{
+        flex: 1;
+        text-align: center;
+        font-size: .28rem;
+        color: #fff;
+        border: 0;
+        border-radius: 0;
+        padding: .2rem;
+        background: #ff8854;
+        &+button{
+          background: #f1262b;
+        }
+      }
+    }
+  }
+}
