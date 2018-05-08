@@ -1,12 +1,19 @@
-import React from 'react'
+import React,{Component} from 'react'
 import './index.scss'
 
-export default ()=>{
-    return (
-        <div className="controller">
-            <button className="btn-oprator reduce">-</button>
-            <input type="text" className="input-num" defaultValue="10"/>
-            <button className="btn-oprator add">+</button>
-        </div>
-    )
+class Controller extends Component{
+    changeCountFn =(goods,flag)=>{
+        this.props.onChangeNum(goods,flag)
+    }
+    render (){
+        let {goods} = this.props
+        return (
+            <div className="controller">
+                <button className="btn-oprator reduce" onClick={this.changeCountFn(goods,-1)}>-</button>
+                <input type="text" className="input-num" value={goods.count} />
+                <button className="btn-oprator add" onClick={this.changeCountFn.bind(this,1)}>+</button>
+            </div>
+        )
+    }
 }
+export default Controller
