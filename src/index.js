@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+// import {Provider} from 'react-redux'
+// import store from './store/'
 import 'modules/styles/index.scss'
 import Route from './router/'
 
@@ -11,6 +12,12 @@ const render = Component=>{
         <Component />,
         document.getElementById('root')
     )
+    // ReactDOM.render(
+    //     <Provider store={store}>
+    //         <Component />
+    //     </Provider>,
+    //     document.getElementById('root')
+    // )
 }
 render(Route)
 registerServiceWorker();

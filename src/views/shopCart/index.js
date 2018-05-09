@@ -4,6 +4,7 @@ import Cell from 'components/cell/'
 import Controller from 'components/controller/'
 import ScrollBox from 'components/scrollBox/'
 import CopyRight from 'components/copyRight/'
+import Toast from 'components/toast/'
 import Service from 'modules/js/request/homeService'
 import './index.scss'
 
@@ -11,6 +12,9 @@ class Balance extends Component {
     state = {
         editing: false,
         shopList: [],
+        showToast: true,
+        text: '确定删除该商品吗？',
+        removeData: null
         // allChecked: false,
         // allRemoveChecked: false,
         // checkedList: [],
@@ -22,6 +26,7 @@ class Balance extends Component {
     checkedList = []
     removeCheckedList = []
     total = 0
+
     componentWillMount() {
         Service.shopCart().then(res => {
             let shopcartList = res.data.shopcartList
@@ -48,7 +53,7 @@ class Balance extends Component {
     _changeCheckList = (shopcartList) => {
         this.checkedList = shopcartList.filter(item => item.checked)
         this.allChecked = this.checkedList.length === shopcartList.length ? true : false;
-        this.total = this.checkedList.map(item=>item.price*item.count).reduce((prev,current)=>prev+current,0)
+        this.total = this.checkedList.map(item => item.price * item.count).reduce((prev, current) => prev + current, 0)
         console.log(this.total)
     }
     _removeCheckedList = (shopcartList) => {
@@ -75,13 +80,22 @@ class Balance extends Component {
 
     }
     deleteGoodsFn = (goods) => {
-        let {shopList} = this.state
-        shopList = shopList.filter(item => {
-            return item.skuId !== goods.skuId
+        this.setState({
+            text: '确定删除该商品吗？'
         })
         this.setState({
-            shopList: shopList
+            removeData: {goods}
         })
+        this.setState({
+            showToast: true
+        })
+        // let {shopList} = this.state
+        // shopList = shopList.filter(item => {
+        //     return item.skuId !== goods.skuId
+        // })
+        // this.setState({
+        //     shopList: shopList
+        // })
     }
     toggleAllFn = (e) => {
         let {shopList, editing} = this.state
@@ -93,47 +107,71 @@ class Balance extends Component {
         this.setState({
             shopList: shopList
         })
-        if(editing){
+        if (editing) {
             this.allRemoveChecked = value
             this.removeCheckedList = value ? shopList : []
             this._removeCheckedList(shopList)
-        }else{
+        } else {
             this.allChecked = value
             this.checkedList = value ? shopList : []
             this._changeCheckList(shopList)
         }
     }
-    deleteSelectedGoodsFn = ()=>{
-        console.log(123)
-        console.log(this.checkedList)
-    }
-    _deleteRemoveList = ()=>{
+    _deleteRemoveList = () => {
         console.log('removeCheckedList')
-        this.removeCheckedList.forEach(item=>{
-            console.log(item.skuId)
+        this.setState({
+            text: '确定将所选${this.removeCheckedList.length}个商品删除吗？'
         })
+        this.setState({
+            showToast: true
+        })
+        // this.removeCheckedList.forEach(item => {
+        //     console.log(item.skuId)
+        // })
     }
-    _goPayCheckedList = ()=>{
+    _goPayCheckedList = () => {
         console.log('checkedList')
-        this.checkedList.forEach(item=>{
+        this.checkedList.forEach(item => {
             console.log(item.skuId)
         })
     }
-    goPayOrDeleteFn = ()=>{
+    goPayOrDeleteFn = () => {
         let {editing} = this.state
-        if(editing){
+        if (editing) {
             this._deleteRemoveList()
-        }else{
+        } else {
             this._goPayCheckedList()
         }
     }
-    changeNumFn=(good,flag)=>{
-        console.log(good,flag)
-        let {shopList} = this.state
-        // this.setState({})
+    changeNumFn = (id, num) => {
+        let {shopList, editing} = this.state
+        if (editing) {
+            this.setState({
+                shopList: shopList.map(item => {
+                    return item.skuId === id ? {...item, count: num} : item
+                })
+            })
+        }
+
+    };
+    confrimDeleteFn =()=>{
+        let {text,shopList} = this.state
+        if(text='确定要删除该商品吗？'){
+            shopList = shopList.filter(item => {
+                return item.skuId !== goods.skuId
+            })
+            this.setState({
+                shopList: shopList
+            })
+        }
+    }
+    concelFn=()=>{
+        this.setState({
+            showToast: false
+        })
     }
     render() {
-        let {editing, shopList} = this.state
+        let {editing, shopList,showToast,text} = this.state
         let editText = editing ? '完成' : '编辑'
         let delText = editing ? '删除' : '结算'
         if (shopList.length === 0) {
@@ -151,8 +189,10 @@ class Balance extends Component {
                                 <div className="shop-name">
                                     <div className="left">
                                         <div className="checkbox">
-                                            <label className={classnames({'active': editing ? this.allRemoveChecked : this.allChecked})}>
-                                                <input type="checkbox" checked={editing ? this.allRemoveChecked : this.allChecked}
+                                            <label
+                                                className={classnames({'active': editing ? this.allRemoveChecked : this.allChecked})}>
+                                                <input type="checkbox"
+                                                       checked={editing ? this.allRemoveChecked : this.allChecked}
                                                        onChange={this.toggleAllFn}/>
                                             </label>
                                         </div>
@@ -178,8 +218,10 @@ class Balance extends Component {
                                                 {/*正常状态*/}
                                                 <div className="info">
                                                     {
-                                                        editing ? <Controller goods={goods} onChangeNum={this.changeNumFn} /> :
-                                                        <div className="name">{goods.skuDesc}</div>
+                                                        editing ?
+                                                            <Controller good={goods} onChangeNum={this.changeNumFn}
+                                                                        disabledStyle={this.changeButtonStyle}/> :
+                                                            <div className="name">{goods.skuDesc}</div>
                                                     }
                                                     <div className="sku-text">{goods.skuText}</div>
                                                     <div className="sku">
@@ -205,8 +247,10 @@ class Balance extends Component {
                 <div className="shopcart-ft page-ft clearfix">
                     <div className="left">
                         <div className="checkbox">
-                            <label className={classnames({'active': editing ? this.allRemoveChecked : this.allChecked})}>
-                                <input type="checkbox" checked={editing ? this.allRemoveChecked : this.allChecked} onChange={this.toggleAllFn}/>
+                            <label
+                                className={classnames({'active': editing ? this.allRemoveChecked : this.allChecked})}>
+                                <input type="checkbox" checked={editing ? this.allRemoveChecked : this.allChecked}
+                                       onChange={this.toggleAllFn}/>
                             </label>
                         </div>
                         <label>全选</label>
@@ -219,16 +263,17 @@ class Balance extends Component {
                     }
                     <button
                         className={classnames('pay-btn', {
-                            'active': editing ? this.removeCheckedList.length !== 0 : this.checkedList.length !==0
+                            'active': editing ? this.removeCheckedList.length !== 0 : this.checkedList.length !== 0
                         })} onClick={this.goPayOrDeleteFn}>{delText}</button>
                 </div>
+                <Toast showToast={showToast} title={text} onConfirm={this.confrimDeleteFn} onClose={this.concelFn} />
             </div>
         );
 
     }
 }
 
-const EmptyCart = ()=>{
+const EmptyCart = () => {
     return (
         <div className="empty-shopcart">
             <p className="message">购物车快饿扁了T.T</p>
@@ -238,6 +283,7 @@ const EmptyCart = ()=>{
     )
 
 }
+
 function withSubscription() {
 
 }

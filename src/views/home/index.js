@@ -10,7 +10,7 @@ import GoodItem from 'components/goodItem/'
 import './index.scss'
 
 class Home extends Component{
-    PropTypes
+    // PropTypes
     render(){
         let {data} = this.props
         return (
