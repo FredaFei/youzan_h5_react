@@ -11,6 +11,15 @@ class Service{
     static shopCart(){
         return fetch(url.shopCart)
     }
+    static deleteGood(goodId){
+        return fetch(url.deleteGood, {goodId})
+    }
+    static deleteMoreGoods(goodIds){
+        return fetch(url.deleteMoreGoods,{goodIds})
+    }
+    static removeIds(arr){
+        return arr.map(item=>item.skuId)
+    }
 }
 export default Service
 

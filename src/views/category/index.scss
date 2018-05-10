@@ -27,7 +27,7 @@
     }
     .goods-wrapper {
         flex: 1;
-        overflow: auto;
+        overflow-y: hidden;
         .goods-list {
             .category-goods-item {
                 .category-title {

@@ -35,7 +35,7 @@ class SkuToast extends Component {
                                     <span>购买数量：</span>
                                     <span>剩余17件</span>
                                 </div>
-                                <Controller />
+                                {/*<Controller />*/}
                             </div>
                         </div>
                     </div>

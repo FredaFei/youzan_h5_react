@@ -12,14 +12,9 @@ class Balance extends Component {
     state = {
         editing: false,
         shopList: [],
-        showToast: true,
+        showToast: false,
         text: '确定删除该商品吗？',
         removeData: null
-        // allChecked: false,
-        // allRemoveChecked: false,
-        // checkedList: [],
-        // removeCheckedList: [],
-        // total: 0
     }
     allChecked = false
     allRemoveChecked = false
@@ -34,16 +29,6 @@ class Balance extends Component {
                 item.checked = false
                 item.removechecked = false
             })
-            // let checkedList = shopcartList.filter(item => item.checked)
-            // let allChecked = checkedList.length === shopcartList.length ? true : false;
-            // let removeCheckedList = shopcartList.filter(item => item.removechecked)
-            // let allRemoveChecked = removeCheckedList.length === shopcartList.length ? true : false;
-            // let total = checkedList.map(item=>item.price*item.count).reduce((prev,current)=>prev+current,0)
-            // this.setState({ checkedList })
-            // this.setState({ allChecked  })
-            // this.setState({ removeCheckedList })
-            // this.setState({ allRemoveChecked  })
-            // this.setState({ total  })
             this.setState({
                 shopList: shopcartList
             })
@@ -79,24 +64,6 @@ class Balance extends Component {
         })
 
     }
-    deleteGoodsFn = (goods) => {
-        this.setState({
-            text: '确定删除该商品吗？'
-        })
-        this.setState({
-            removeData: {goods}
-        })
-        this.setState({
-            showToast: true
-        })
-        // let {shopList} = this.state
-        // shopList = shopList.filter(item => {
-        //     return item.skuId !== goods.skuId
-        // })
-        // this.setState({
-        //     shopList: shopList
-        // })
-    }
     toggleAllFn = (e) => {
         let {shopList, editing} = this.state
         let value = e.target.checked
@@ -117,23 +84,30 @@ class Balance extends Component {
             this._changeCheckList(shopList)
         }
     }
-    _deleteRemoveList = () => {
-        console.log('removeCheckedList')
+    deleteGoodsFn = (goods, goodIndex) => {
         this.setState({
-            text: '确定将所选${this.removeCheckedList.length}个商品删除吗？'
+            text: '确定删除该商品吗？'
+        })
+        let removeData = {goods,goodIndex}
+        this.setState({
+            removeData
         })
         this.setState({
             showToast: true
         })
-        // this.removeCheckedList.forEach(item => {
-        //     console.log(item.skuId)
-        // })
+    }
+    _deleteRemoveList = () => {
+        console.log('removeCheckedList')
+        this.setState({
+            text: `确定将这${this.removeCheckedList.length}个商品删除吗？`
+        })
+        this.setState({
+            showToast: true
+        })
     }
     _goPayCheckedList = () => {
-        console.log('checkedList')
-        this.checkedList.forEach(item => {
-            console.log(item.skuId)
-        })
+        this.setState({text: `选中的产品有${this.checkedList.length}个`})
+        this.setState({showToast: true})
     }
     goPayOrDeleteFn = () => {
         let {editing} = this.state
@@ -154,24 +128,55 @@ class Balance extends Component {
         }
 
     };
-    confrimDeleteFn =()=>{
-        let {text,shopList} = this.state
-        if(text='确定要删除该商品吗？'){
-            shopList = shopList.filter(item => {
-                return item.skuId !== goods.skuId
+    confrimDeleteFn = () => {
+        let {text, shopList} = this.state
+        if (text === '确定删除该商品吗？') {
+            let {removeData} = this.state
+            let {goods, goodIndex} = removeData
+            Service.deleteGood(goods.skuId).then(res=>{
+                shopList = shopList.filter(item => {
+                    return item.skuId !== goods.skuId
+                })
+                this.setState({
+                    shopList: shopList
+                })
+                this.setState({
+                    showToast: false
+                })
             })
-            this.setState({
-                shopList: shopList
+        }else{
+            let goodIds = Service.removeIds(this.removeCheckedList)
+            Service.deleteMoreGoods(goodIds).then(res=>{
+                let temp = []
+                this.state.shopList.forEach(good=>{
+                    let index = this.removeCheckedList.findIndex(item=>{
+                        return good.skuId === item.skuId
+                    })
+                    if(index===-1){
+                        temp.push(good)
+                    }
+                    if(temp.length){
+                        this.setState({shopList: temp})
+                    }
+                    this.setState({
+                        showToast: false
+                    })
+                    this.setState({
+                        editing: false
+                    })
+                })
+                
             })
         }
     }
-    concelFn=()=>{
+    cancelFn = () => {
         this.setState({
             showToast: false
         })
     }
+
     render() {
-        let {editing, shopList,showToast,text} = this.state
+        let {editing, shopList, showToast, text} = this.state
         let editText = editing ? '完成' : '编辑'
         let delText = editing ? '删除' : '结算'
         if (shopList.length === 0) {
@@ -231,7 +236,7 @@ class Balance extends Component {
                                                 </div>
                                                 {/*编辑状态*/}
                                                 {editing && <div className="del-btn"
-                                                                 onClick={this.deleteGoodsFn.bind(this, goods)}>删除</div>}
+                                                                 onClick={this.deleteGoodsFn.bind(this, goods, index)}>删除</div>}
                                             </div>
                                         )
                                     })
@@ -266,7 +271,7 @@ class Balance extends Component {
                             'active': editing ? this.removeCheckedList.length !== 0 : this.checkedList.length !== 0
                         })} onClick={this.goPayOrDeleteFn}>{delText}</button>
                 </div>
-                <Toast showToast={showToast} title={text} onConfirm={this.confrimDeleteFn} onClose={this.concelFn} />
+                <Toast showToast={showToast} title={text} onConfirm={this.confrimDeleteFn} onClose={this.cancelFn}/>
             </div>
         );
 

@@ -1,14 +1,29 @@
 import React,{Component} from 'react'
+import PropTypes from 'prop-types'
+
 import WithDataLoadHoc from '../withDataLoadHoc'
 import ScrollBox from 'components/scrollBox/'
 import CopyRight from 'components/copyRight/'
 
-import PropTypes from 'prop-types'
-import Service from 'modules/js/request/homeService'
 import Title from 'components/title/'
-import GoodItem from 'components/goodItem/'
+import Service from 'modules/js/request/homeService'
 import './index.scss'
 
+
+const GoodItem = (props)=>{
+    let {good} = props
+    return (
+        <div className="goods-item">
+            <div className="left"><img src={good.imgUrl} alt=""/></div>
+            <div className="right">
+                <div className="desc">{good.title}</div>
+                <div className="sale">{good.saleText}<br/><button className="price">{good.price}元</button></div>
+                <div className="tip">{good.tip}</div>
+            </div>
+        </div>
+    )
+}
+const withLoadList = (data)=>data.map(goodItem=><GoodItem good={goodItem} key={goodItem.id}/>)
 class Home extends Component{
     // PropTypes
     render(){
@@ -24,11 +39,7 @@ class Home extends Component{
                     <div className="new-goods">
                         <Title text="官方好物上新" />
                         <div className="good-list">
-                            {
-                                data.hotGoods.map(goodItem=>{
-                                    return <GoodItem good={goodItem} key={goodItem.id}/>
-                                })
-                            }
+                            { withLoadList(data.hotGoods) }
                         </div>
                     </div>
                     <div className="hot-goods">

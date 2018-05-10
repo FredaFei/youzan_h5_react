@@ -128,16 +128,16 @@ class CategoryList extends Component{
                     <div className="goods-wrapper" ref="goodsWrapper">
                         <ul className="goods-list">{goodsItem}</ul>
                     </div>
-                    {
-                        showSkuToast &&<SkuToast 
-                        showSkuToast={showSkuToast}
-                        goodDetail={goodDetail} 
-                        closeSkuFn={this.closeSkuFn}/>
-                    }
-                    {
-                        showLoading && <div className="square-loading">loading ... </div>
-                    }
                 </div>
+                {
+                    showSkuToast &&<SkuToast 
+                    showSkuToast={showSkuToast}
+                    goodDetail={goodDetail} 
+                    closeSkuFn={this.closeSkuFn}/>
+                }
+                {
+                    showLoading && <div className="square-loading">loading ... </div>
+                }
             </div>
 
         )
