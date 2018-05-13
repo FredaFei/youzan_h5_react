@@ -4,12 +4,40 @@ import BScroll from 'better-scroll'
 import Loading from 'components/loading/'
 import SkuToast from './skuToast.js'
 import Service from 'modules/js/request/homeService'
+import withDataLoadHoc from '../withDataLoadHoc.js'
 import './index.scss'
+
+const GoodItem = (props)=>{
+    return (
+    <li className="goods-cell" >
+        <div className="img"><img src={props.image} alt=""/></div>
+        <div className="desc">
+            <div className="info">{props.name}</div>
+            <div className="price">￥{props.price}</div>
+            <div className="control" onClick={props.skuToastFn}>+</div>
+        </div>
+    </li>
+    )
+}
+const GoodList = ({goodList,skuToastFn})=>{
+    return (
+            <ul>
+                {
+                    goodList.map((good, goodIndex) => {
+                        return (
+                            <GoodItem key={goodIndex} {...good} skuToastFn={skuToastFn}></GoodItem>
+                        )
+                    })
+                }
+            </ul>
+        )
+}
+const SquareLoading = ()=> <div className="square-wrapper"><div className="loading-box">loading ...</div> </div>
 
 class CategoryList extends Component{
     state = {
         menuIndex: 0,
-        showSkuToast: true,
+        showSkuToast: false,
         goodDetail: null,
         showLoading: false
     }
@@ -62,8 +90,7 @@ class CategoryList extends Component{
     selectMenu = (index) => {
         if (this.state.menuIndex !== index) {
             let aGoodList = this.refs.goodsWrapper.querySelectorAll('.category-goods-item')
-            console.log(aGoodList)
-            this.goodsScroll.scrollToElement(aGoodList[index], 300)
+            this.goodsScroll.scrollToElement(aGoodList[index], 100)
         }
     }
     skuToastFn = () => {
@@ -90,32 +117,17 @@ class CategoryList extends Component{
     }
     render() {
         let {menuIndex, showSkuToast,goodDetail,showLoading} = this.state
-        let {categoryList} = this.props
-        let menuItem = categoryList.goods.map((item, index) => {
+        let {data} = this.props
+        let menuItem = data.goods.map((item, index) => {
             return <li className={classnames('category-menu-item', {'active': menuIndex === index})}
                        onClick={this.selectMenu.bind(this, index)}
                        key={index}>{item.name}</li>
         })
-        let goodsItem = categoryList.goods.map((item, index) => {
+        let goodsItem = data.goods.map((item, index) => {
             return (
                 <li className="category-goods-item" key={index}>
                     <h1 className="category-title">{item.name}</h1>
-                    <ul>
-                        {
-                            item.goodList.map((good, goodIndex) => {
-                                return (
-                                    <li className="goods-cell" key={goodIndex}>
-                                        <div className="img"><img src={good.image} alt=""/></div>
-                                        <div className="desc">
-                                            <div className="info">{good.name}</div>
-                                            <div className="price">￥{good.price}</div>
-                                            <div className="control" onClick={this.skuToastFn}>+</div>
-                                        </div>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
+                    {<GoodList goodList={item.goodList} skuToastFn={this.skuToastFn}></GoodList>}
                 </li>
             );
         })
@@ -131,12 +143,12 @@ class CategoryList extends Component{
                 </div>
                 {
                     showSkuToast &&<SkuToast 
-                    showSkuToast={showSkuToast}
-                    goodDetail={goodDetail} 
-                    closeSkuFn={this.closeSkuFn}/>
+                        showSkuToast={showSkuToast}
+                        goodDetail={goodDetail} 
+                        closeSkuFn={this.closeSkuFn}/>
                 }
                 {
-                    showLoading && <div className="square-loading">loading ... </div>
+                    showLoading && <SquareLoading />
                 }
             </div>
 
@@ -145,29 +157,4 @@ class CategoryList extends Component{
     }
 }
 
-class Category extends Component {
-    static propTypes = {
-    }
-    state = {
-        categoryList: null
-    }
-    componentWillMount (){
-        Service.category().then(res=>{
-            this.setState({
-                categoryList: res.data
-            })
-        })
-    }
-    render(){
-        let {categoryList} = this.state
-        let cate = null
-        if(!categoryList){
-            cate = <Loading />
-        }else{
-            cate = <CategoryList categoryList={categoryList}/>
-        }
-        return cate
-    }
-}
-
-export default Category
+export default withDataLoadHoc(CategoryList, Service.category)

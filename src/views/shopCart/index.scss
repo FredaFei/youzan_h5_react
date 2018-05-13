@@ -200,3 +200,33 @@
         }
     }
 }
+
+.empty-shopcart{
+    margin: .6rem auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    text-align: center;
+    background: #efefef;
+    .message{
+        font-size: .3rem;
+        color: #333;
+    }
+    .wish{
+        font-size: .26rem;
+        color: #bababa;
+        margin: .2rem auto;
+    }
+    .go{
+        border: 1px solid #f44;
+        padding: .12rem;
+        width: 2rem;
+        margin: 0 auto;
+        background: transparent;
+    }
+}

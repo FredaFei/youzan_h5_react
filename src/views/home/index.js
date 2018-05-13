@@ -45,21 +45,13 @@ class Home extends Component{
                     <div className="hot-goods">
                         <Title text="官方零食上架" />
                         <div className="good-list">
-                            {
-                                data.classGoods.map(goodItem=>{
-                                    return <GoodItem good={goodItem} key={goodItem.id}/>
-                                })
-                            }
+                            { withLoadList(data.classGoods) }
                         </div>
                     </div>
                     <div className="recommend-goods">
                         <Title text="饿就来一口" />
                         <div className="good-list">
-                            {
-                                data.recommendGoods.map(goodItem=>{
-                                    return <GoodItem good={goodItem} key={goodItem.id}/>
-                                })
-                            }
+                            { withLoadList(data.recommendGoods) }
                         </div>
                     </div>
                     <CopyRight />

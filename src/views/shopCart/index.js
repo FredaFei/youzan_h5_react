@@ -155,9 +155,7 @@ class Balance extends Component {
                     if(index===-1){
                         temp.push(good)
                     }
-                    if(temp.length){
-                        this.setState({shopList: temp})
-                    }
+                    this.setState({shopList: temp.length ? temp : []})
                     this.setState({
                         showToast: false
                     })
@@ -289,9 +287,12 @@ const EmptyCart = () => {
 
 }
 
-function withSubscription() {
+function withShopcartEmpty() {
 
 }
-
+const withLoadingIndicator = (Component) => ({ isLoadingTodos, ...others }) =>
+  isLoadingTodos
+    ? <div><p>Loading todos ...</p></div>
+    : <Component { ...others } />
 
 export default Balance
